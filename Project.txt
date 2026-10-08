@@ -1,0 +1,531 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. Final Technology Stack
+Backend — Primary Focus
+- Java 21
+- Spring Boot
+- Spring MVC
+- Spring Data JPA
+- Hibernate
+- Maven
+- REST APIs
+- DTOs
+- Service / Repository architecture
+Security
+- Spring Security
+- JWT
+- BCrypt
+- Role-Based Access Control
+- ADMIN
+- DOCTOR
+- NURSE
+- PATIENT
+I'll handle the Java/Spring Security part with you because you've used JWT in JavaScript but haven't implemented it with Spring Security.
+Database
+PostgreSQL
+We'll work with:
+- SQL
+- Relationships
+- Constraints
+- Transactions
+- Indexes
+- JPA/Hibernate mappings
+You'll write actual SQL when appropriate, and I'll help with PostgreSQL syntax whenever you need it.
+Performance
+Redis
+We'll use it for a genuine use case, such as:
+- Doctor availability
+- Department information
+- Frequently accessed scheduling data
+We'll implement:
+Request
+   ↓
+Redis
+   ↓
+Cache HIT → Return
+   │
+   └── MISS
+        ↓
+    PostgreSQL
+        ↓
+     Redis
+        ↓
+     Return
+
+Testing
+- JUnit 5
+- Mockito
+- Spring Boot testing
+- Unit tests
+- Integration tests
+We'll actually write tests for the important business logic rather than just listing JUnit on the resume.
+API Quality
+- Bean Validation
+- Global Exception Handling
+- Logging
+- Swagger / OpenAPI
+- Postman
+Frontend
+React.js
+With:
+- Axios
+- React Router
+- FullCalendar
+- Reusable components
+- Responsive UI
+- Forms
+- Dashboards
+- Loading/error/empty states
+This is the area where I'll help you heavily with UI/UX, since your API integration knowledge is already stronger than your UI design experience.
+DevOps
+- Git
+- GitHub
+- Docker
+- Docker Compose
+- Kubernetes
+- Jenkins
+- CI/CD
+We'll learn the actual implementation rather than simply knowing the terminology.
+AWS
+We'll start locally.
+Eventually:
+- AWS RDS → PostgreSQL
+- AWS EKS → Kubernetes
+- IAM
+- CloudWatch
+But we won't spend money unnecessarily.
+Local Docker/Kubernetes first → AWS later when the application is stable.
+Messaging
+Apache Kafka
+We'll use it for a real event-driven workflow.
+For example:
+Appointment Created
+        ↓
+AppointmentCreated Event
+        ↓
+      Kafka
+        ↓
+Notification Consumer
+        ↓
+Notification
+
+And potentially emergency alerts.
+AI
+Spring AI + external LLM
+You are not building/training an AI model.
+You're building the Java application that integrates an existing LLM.
+For example:
+Patient
+  ↓
+React Intake Form
+  ↓
+Spring Boot
+  ↓
+Spring AI
+  ↓
+External LLM
+  ↓
+Structured response
+  ↓
+Spring Boot business logic
+
+The AI-assisted feature will analyze patient-provided information and authorized medical-history context and help with:
+- urgency classification
+- department routing
+- identifying relevant previous history
+- deciding whether routine medical evaluation should be recommended
+- directing emergency cases into the emergency workflow
+The application will use deterministic safety/business rules around the AI, rather than allowing an LLM to independently make medical decisions.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. What are we actually building?
+There will be four major user roles.
+👤 Patient
+Patient can:
+- Register/login
+- View profile
+- View medical history
+- View medications
+- View previous treatments
+- View appointments
+- Book appointments
+- Cancel/reschedule where permitted
+- View doctor availability
+- Use AI-assisted intake
+- Upload relevant information/images where supported
+- Receive notifications
+👨‍⚕️ Doctor
+Doctor can:
+- Login
+- View dashboard
+- View assigned/current patients
+- View patient history
+- View appointments
+- Manage availability
+- Manage treatment information
+- Prescribe/record medications
+- Add medical notes
+- Manage follow-ups
+- View calendar
+👩‍⚕️ Nurse
+Nurse can:
+- View assigned patients
+- View treatment instructions
+- View medication schedules
+- View assigned tasks
+- Update task/checkup status
+- View patient information according to authorization
+👨‍💼 Admin
+Admin can manage:
+- Users
+- Doctors
+- Nurses
+- Departments
+- Wards
+- Doctor availability
+- Assignments
+- Hospital-level configuration
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. The AI Feature
+This is one of the major differentiators.
+Patient opens:
+"Need Medical Assistance?"
+
+They get an intake form.
+Symptoms
+Duration
+Severity
+Existing conditions
+Current medications
+Previous relevant history
+Optional image/document
+
+Then:
+                    Patient Input
+                         ↓
+                Spring AI Service
+                         ↓
+                    External LLM
+                         ↓
+               Structured Response
+                         ↓
+             HealthSync Business Rules
+                         ↓
+        ┌────────────────┼─────────────────┐
+        ↓                ↓                 ↓
+    Emergency         Urgent            Routine
+        ↓                ↓                 ↓
+ Emergency          Department        General
+ workflow           + Doctor          guidance/
+                    availability       appointment
+
+For example, an emergency workflow could trigger an emergency alert, notify appropriate available hospital staff, and direct the patient to emergency care rather than putting them through normal appointment booking.
+Again, this would be implemented as an AI-assisted workflow, not an autonomous medical diagnosis system.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. How we're going to CREATE it
+This is the most important part based on what you told me earlier.
+We are not going to randomly start coding.
+We're going to work like a development team.
+Stage 0 — Requirements
+First we create:
+Software Requirements Specification
+We'll define:
+- Users
+- Roles
+- Functional requirements
+- Non-functional requirements
+- Modules
+- Business rules
+- APIs
+- Database requirements
+- Security requirements
+- AI requirements
+- DevOps requirements
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+                       USER
+                        │
+	                        ▼
+                     React.js
+                        │
+                Axios / REST APIs
+                        │
+	                        ▼
+              ┌──────────────────┐
+              │   Spring Boot    │
+              │                  │
+              │ REST Controllers │
+              │ DTOs             │
+              │ Services         │
+              │ Spring Security  │
+              │ JWT / RBAC       │
+              │ Spring AI        │
+              └───────┬──────────┘
+                      │
+          ┌───────────┼────────────┐
+          │           │            │
+               ▼               ▼                  ▼
+     PostgreSQL     Redis        Kafka
+       JPA          Cache        Events
+     Hibernate        │            |
+          │           │            │
+          └───────────┼────────────┘
+                      │
+                                 ▼
+                    Docker
+                      │
+                      	         ▼
+                  Kubernetes
+                      │
+                                 ▼
+                     AWS
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Stage 1 — Development Backlog
+Then we'll convert the requirements into tasks.
+For example:
+HS-001 Create Spring Boot project
+HS-002 Configure Maven
+HS-003 Configure PostgreSQL
+HS-004 Configure application profiles
+HS-005 Configure Git
+HS-006 Create project package structure
+
+Then:
+HS-AUTH-001 Create User entity
+HS-AUTH-002 Create UserRepository
+HS-AUTH-003 Create registration DTO
+HS-AUTH-004 Implement registration API
+HS-AUTH-005 Add BCrypt
+HS-AUTH-006 Configure Spring Security
+HS-AUTH-007 Implement JWT
+HS-AUTH-008 Implement login
+HS-AUTH-009 Implement RBAC
+
+And so on.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 2 — Build the Backend
+We'll build the Java application systematically:
+Controller
+    ↓
+DTO
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Hibernate/JPA
+    ↓
+PostgreSQL
+
+You'll already understand much of this.
+I'll fill in the areas you're less comfortable with.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 3 — Security
+We'll implement:
+Register
+   ↓
+Password hashing
+   ↓
+Login
+   ↓
+JWT
+   ↓
+Security Filter
+   ↓
+Authentication
+   ↓
+Authorization
+   ↓
+RBAC
+
+You'll specifically learn Spring Security + JWT, not just copy a configuration.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 4 — Hospital Modules
+Then we implement the actual business functionality:
+Patients
+Doctors
+Nurses
+Departments
+Appointments
+Doctor Availability
+Treatments
+Medications
+Medical History
+Wards
+Tasks
+Notifications
+
+Each module becomes a sequence of development tasks.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 5 — React
+Once the backend APIs are stable enough, we build the UI.
+We'll create:
+Login
+    ↓
+Role-based Dashboard
+    ├── Patient Dashboard
+    ├── Doctor Dashboard
+    ├── Nurse Dashboard
+    └── Admin Dashboard
+
+I'll help you significantly with the visual design and UX.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 6 — Calendar
+We'll integrate FullCalendar.
+But remember:
+FullCalendar handles the UI.
+Spring Boot handles:
+- doctor availability
+- appointment slots
+- conflicts
+- holidays
+- cancellations
+- rescheduling
+- business rules
+So we get both frontend and backend experience.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 7 — Testing
+We'll test the actual application.
+JUnit
+   +
+Mockito
+   +
+Integration Tests
+   +
+Postman
+
+We'll test things such as:
+- authentication
+- authorization
+- appointment creation
+- duplicate appointments
+- invalid requests
+- doctor availability
+- cancellation
+- business rules
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 8 — Redis
+After the core application works:
+PostgreSQL
+     ↓
+Identify expensive/frequent queries
+     ↓
+Redis
+     ↓
+Caching
+     ↓
+Measure/verify behavior
+
+Now Redis has a reason to exist, rather than being a resume keyword.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 9 — Kafka
+Then we'll introduce event-driven processing.
+Example:
+Appointment Created
+       ↓
+Spring Boot
+       ↓
+Kafka Producer
+       ↓
+Kafka Topic
+       ↓
+Consumer
+       ↓
+Notification
+
+This will give you genuine Kafka experience.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 10 — Docker
+Containerize:
+React
+Spring Boot
+PostgreSQL
+Redis
+Kafka
+
+Initially using Docker Compose.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 11 — Jenkins
+Then:
+GitHub
+   ↓
+Jenkins
+   ↓
+Build
+   ↓
+JUnit Tests
+   ↓
+Docker Build
+   ↓
+Docker Image
+   ↓
+Deployment
+
+Now you have an actual CI/CD pipeline.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 12 — Kubernetes
+Then move the deployment model toward:
+Docker Images
+      ↓
+Kubernetes
+      ↓
+Services
+      ↓
+Pods
+      ↓
+Deployment
+
+We'll learn it by actually deploying HealthSync rather than studying Kubernetes independently.
+
+*****************************************************************************************************************************************************************************************************************
+
+Stage 13 — AWS
+Only after everything above is working.
+Start small:
+Local
+ ↓
+Docker
+ ↓
+Kubernetes locally
+ ↓
+AWS
+
+Then potentially:
+AWS RDS
+   +
+AWS EKS
+
+No unnecessary infrastructure spending.
+
+
