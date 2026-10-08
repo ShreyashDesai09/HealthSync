@@ -292,12 +292,14 @@ We'll define:
 Stage 1 — Development Backlog
 Then we'll convert the requirements into tasks.
 For example:
-HS-001 Create Spring Boot project
+HS-001 Create Spring Boot project - DONE
 HS-002 Configure Maven
 HS-003 Configure PostgreSQL
 HS-004 Configure application profiles
 HS-005 Configure Git
 HS-006 Create project package structure
+
+DONE
 
 Then:
 HS-AUTH-001 Create User entity
