@@ -1,0 +1,21 @@
+# Eclipse / Spring Tool Suite
+.metadata/
+.settings/
+.project
+.classpath
+.factorypath
+
+# Maven build output
+target/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
