@@ -1,6 +1,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 1. Final Technology Stack
+
 Backend — Primary Focus
 - Java 21
 - Spring Boot
@@ -11,6 +12,7 @@ Backend — Primary Focus
 - REST APIs
 - DTOs
 - Service / Repository architecture
+
 Security
 - Spring Security
 - JWT
@@ -20,9 +22,12 @@ Security
 - DOCTOR
 - NURSE
 - PATIENT
+
 I'll handle the Java/Spring Security part with you because you've used JWT in JavaScript but haven't implemented it with Spring Security.
+
 Database
 PostgreSQL
+
 We'll work with:
 - SQL
 - Relationships
@@ -32,12 +37,16 @@ We'll work with:
 - JPA/Hibernate mappings
 You'll write actual SQL when appropriate, and I'll help with PostgreSQL syntax whenever you need it.
 Performance
+
 Redis
+
 We'll use it for a genuine use case, such as:
 - Doctor availability
 - Department information
 - Frequently accessed scheduling data
+
 We'll implement:
+
 Request
    ↓
 Redis
@@ -53,20 +62,27 @@ Cache HIT → Return
      Return
 
 Testing
+
 - JUnit 5
 - Mockito
 - Spring Boot testing
 - Unit tests
 - Integration tests
+
 We'll actually write tests for the important business logic rather than just listing JUnit on the resume.
+
 API Quality
+
 - Bean Validation
 - Global Exception Handling
 - Logging
 - Swagger / OpenAPI
 - Postman
+
 Frontend
+
 React.js
+
 With:
 - Axios
 - React Router
@@ -76,8 +92,11 @@ With:
 - Forms
 - Dashboards
 - Loading/error/empty states
+
 This is the area where I'll help you heavily with UI/UX, since your API integration knowledge is already stronger than your UI design experience.
+
 DevOps
+
 - Git
 - GitHub
 - Docker
@@ -85,36 +104,51 @@ DevOps
 - Kubernetes
 - Jenkins
 - CI/CD
+
 We'll learn the actual implementation rather than simply knowing the terminology.
 AWS
+
 We'll start locally.
+
 Eventually:
+
 - AWS RDS → PostgreSQL
 - AWS EKS → Kubernetes
 - IAM
 - CloudWatch
+
 But we won't spend money unnecessarily.
+
 Local Docker/Kubernetes first → AWS later when the application is stable.
 Messaging
 Apache Kafka
+
 We'll use it for a real event-driven workflow.
+
 For example:
+
 Appointment Created
         ↓
 AppointmentCreated Event
         ↓
-      Kafka
+    Kafka
         ↓
 Notification Consumer
         ↓
 Notification
 
 And potentially emergency alerts.
+
 AI
+
 Spring AI + external LLM
+
 You are not building/training an AI model.
+
 You're building the Java application that integrates an existing LLM.
+
 For example:
+
 Patient
   ↓
 React Intake Form
@@ -140,9 +174,13 @@ The application will use deterministic safety/business rules around the AI, rath
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 2. What are we actually building?
+
 There will be four major user roles.
+
 👤 Patient
+
 Patient can:
+
 - Register/login
 - View profile
 - View medical history
@@ -155,8 +193,11 @@ Patient can:
 - Use AI-assisted intake
 - Upload relevant information/images where supported
 - Receive notifications
+
 👨‍⚕️ Doctor
+
 Doctor can:
+
 - Login
 - View dashboard
 - View assigned/current patients
@@ -168,16 +209,22 @@ Doctor can:
 - Add medical notes
 - Manage follow-ups
 - View calendar
+
 👩‍⚕️ Nurse
+
 Nurse can:
+
 - View assigned patients
 - View treatment instructions
 - View medication schedules
 - View assigned tasks
 - Update task/checkup status
 - View patient information according to authorization
+
 👨‍💼 Admin
+
 Admin can manage:
+
 - Users
 - Doctors
 - Nurses
@@ -190,8 +237,11 @@ Admin can manage:
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 3. The AI Feature
+
 This is one of the major differentiators.
+
 Patient opens:
+
 "Need Medical Assistance?"
 
 They get an intake form.
@@ -228,12 +278,18 @@ Again, this would be implemented as an AI-assisted workflow, not an autonomous m
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 4. How we're going to CREATE it
+
 This is the most important part based on what you told me earlier.
+
 We are not going to randomly start coding.
+
 We're going to work like a development team.
+
 Stage 0 — Requirements
+
 First we create:
 Software Requirements Specification
+
 We'll define:
 - Users
 - Roles
@@ -317,7 +373,9 @@ And so on.
 *****************************************************************************************************************************************************************************************************************
 
 Stage 2 — Build the Backend
+
 We'll build the Java application systematically:
+
 Controller
     ↓
 DTO
@@ -336,7 +394,9 @@ I'll fill in the areas you're less comfortable with.
 *****************************************************************************************************************************************************************************************************************
 
 Stage 3 — Security
+
 We'll implement:
+
 Register
    ↓
 Password hashing
@@ -358,7 +418,9 @@ You'll specifically learn Spring Security + JWT, not just copy a configuration.
 *****************************************************************************************************************************************************************************************************************
 
 Stage 4 — Hospital Modules
+
 Then we implement the actual business functionality:
+
 Patients
 Doctors
 Nurses
