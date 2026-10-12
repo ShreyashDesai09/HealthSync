@@ -54,7 +54,7 @@ public class Patient {
 	private LocalDateTime updatedAt;
 	
 	public Patient()
-	{}
+	{	}
 
 	public Long getId() {
 		return id;
