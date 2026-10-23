@@ -1,20 +1,16 @@
 package com.healthsync.controller;
 
 import com.healthsync.entity.Department;
-import com.healthsync.repository.DepartmentRepository;
 import com.healthsync.service.DepartmentService;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,14 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/departments")
 public class DepartmentController {
 
-    private final DepartmentRepository departmentRepository;
-
 	private final DepartmentService departmentService;
 	
-	public DepartmentController(DepartmentService departmentService, DepartmentRepository departmentRepository)
+	public DepartmentController(DepartmentService departmentService)
 	{
 		this.departmentService = departmentService;
-		this.departmentRepository = departmentRepository;
 	}
 	
 	@GetMapping
