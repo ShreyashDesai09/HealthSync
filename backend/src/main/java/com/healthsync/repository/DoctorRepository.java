@@ -6,4 +6,6 @@ import com.healthsync.entity.Doctor;
 
 public interface DoctorRepository extends JpaRepository<Doctor,Long>{
 
+	boolean existsByEmail(String email);
+	
 }
