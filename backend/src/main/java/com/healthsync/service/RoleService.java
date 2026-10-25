@@ -37,7 +37,7 @@ public class RoleService {
 		
 	}
 	
-	public void updateRole(Long id, Role updatedRole)
+	public Role updateRole(Long id, Role updatedRole)
 	{
 		
 		if(roleRepository.existsByNameAndIdNot(updatedRole.getName(), id))
@@ -49,7 +49,7 @@ public class RoleService {
 		role.setName(updatedRole.getName());
 		role.setDescription(updatedRole.getDescription());
 		
-		roleRepository.save(role);
+		return roleRepository.save(role);
 			
 	}
 	

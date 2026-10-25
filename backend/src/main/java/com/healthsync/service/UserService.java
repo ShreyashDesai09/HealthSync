@@ -30,7 +30,7 @@ public class UserService {
 		return userRepository.findById(id);
 	}
 	
-	public void createUser(User user)
+	public User createUser(User user)
 	{
 		if(userRepository.existsByEmail(user.getEmail()))
 			throw new RuntimeException("Email Already Existed");
@@ -38,10 +38,10 @@ public class UserService {
 		if(!roleRepository.existsById(user.getRole().getId()))
 			throw new RuntimeException("Role Not Found");
 		
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 	
-	public void updateUser(Long id , User user)
+	public User updateUser(Long id , User user)
 	{
 		
 		if(userRepository.existsByEmailAndIdNot(user.getEmail(), id))
@@ -57,7 +57,7 @@ public class UserService {
 		updatedUser.setEmail(user.getEmail());
 		updatedUser.setRole(user.getRole());
 		
-		userRepository.save(updatedUser);
+		return userRepository.save(updatedUser);
 	}
 	
 	public void deleteUser(Long id)
