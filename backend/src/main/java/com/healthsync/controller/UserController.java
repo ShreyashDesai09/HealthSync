@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.healthsync.entity.User;
 import com.healthsync.service.UserService;
+import com.healthsync.dto.UserResponse;
 
 import jakarta.validation.Valid;
 
@@ -29,16 +30,25 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<User>> getUser()
+	private UserResponse toUserResponse(User user)
 	{
-		return ResponseEntity.ok(userService.getAllUsers());
+		return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole().getId(), user.getRole().getName(), user.getCreatedAt(), user.getUpdatedAt());
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<UserResponse>> getUser()
+	{
+		
+		List<UserResponse> users = userService.getAllUsers().stream().map(this::toUserResponse).toList();
+				
+		return ResponseEntity.ok(users);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable Long id)
-	{
+	public ResponseEntity<UserResponse> getUserById(@PathVariable Long id)
+	{	
 		return userService.getUserById(id)
+				.map(this::toUserResponse)
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}
@@ -51,7 +61,7 @@ public class UserController {
 			User createdUser = userService.createUser(user);
 			
 			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(createdUser);
+					.body(toUserResponse(createdUser));
 			
 	
 		}catch (RuntimeException e) {
@@ -78,7 +88,7 @@ public class UserController {
 			
 			User updatedUser = userService.updateUser(id, user);
 			
-			return ResponseEntity.ok(updatedUser);
+			return ResponseEntity.ok(toUserResponse(updatedUser));
 			
 		}catch (RuntimeException e) {
 		
