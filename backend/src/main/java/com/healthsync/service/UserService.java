@@ -3,6 +3,7 @@ package com.healthsync.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.healthsync.entity.User;
@@ -14,10 +15,12 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
+	private final PasswordEncoder passwordEncoder;
 	
-	public UserService(UserRepository userRepository , RoleRepository roleRepository) {
+	public UserService(UserRepository userRepository , RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	public List<User> getAllUsers()
@@ -38,6 +41,7 @@ public class UserService {
 		if(!roleRepository.existsById(user.getRole().getId()))
 			throw new RuntimeException("Role Not Found");
 		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 	
