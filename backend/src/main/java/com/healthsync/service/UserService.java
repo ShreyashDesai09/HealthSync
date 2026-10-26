@@ -21,8 +21,7 @@ public class UserService {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
-	}
-	
+	}	
 	public List<User> getAllUsers()
 	{
 		return userRepository.findAll();
@@ -70,6 +69,18 @@ public class UserService {
 			throw new RuntimeException("User Not Found");
 		
 		userRepository.deleteById(id);
+	}
+	
+	public User authenticateUser(String email , String rawPassword)
+	{
+		User user = userRepository.findByEmail(email)
+				.orElseThrow(()  -> new RuntimeException("Invalid Email or Password"));
+		
+		if(!passwordEncoder.matches(rawPassword, user.getPassword()))
+			throw new RuntimeException("Invalid Email or Password");
+		
+		
+		return user;
 	}
 	
 }
