@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthsync.dto.LoginRequest;
 import com.healthsync.dto.LoginResponse;
 import com.healthsync.entity.User;
+import com.healthsync.security.JwtService;
 import com.healthsync.service.UserService;
 
 import jakarta.validation.Valid;
@@ -20,9 +21,11 @@ import jakarta.validation.Valid;
 public class AuthController {
 
 	private final UserService userService;
-
-	public AuthController(UserService userService) {
+	private final JwtService jwtService;
+	
+	public AuthController(UserService userService , JwtService jwtService) {
 		this.userService = userService;
+		this.jwtService= jwtService;
 	}
 	
 	@PostMapping("/login")
@@ -33,7 +36,16 @@ public class AuthController {
 			
 			User user = userService.authenticateUser(request.getEmail(), request.getPassword());
 			
-			LoginResponse response = new LoginResponse(user.getId(), user.getName(), user.getEmail(), user.getRole().getId(), user.getRole().getName());
+			String token = jwtService.generateToken(user.getEmail());
+			
+			LoginResponse response = new LoginResponse(
+			        user.getId(),
+			        user.getName(),
+			        user.getEmail(),
+			        user.getRole().getId(),
+			        user.getRole().getName(),
+			        token
+			);
 			
 			return ResponseEntity.ok(response);
 			

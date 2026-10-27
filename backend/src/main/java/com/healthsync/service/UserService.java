@@ -79,7 +79,6 @@ public class UserService {
 		if(!passwordEncoder.matches(rawPassword, user.getPassword()))
 			throw new RuntimeException("Invalid Email or Password");
 		
-		
 		return user;
 	}
 	
