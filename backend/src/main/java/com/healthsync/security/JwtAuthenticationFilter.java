@@ -53,6 +53,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .authorities(Collections.emptyList())
                         .build();
 
+                
+                
                 if (jwtService.isTokenValid(token, email)) {
 
                     UsernamePasswordAuthenticationToken authentication =
